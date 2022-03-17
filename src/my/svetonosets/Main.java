@@ -65,10 +65,10 @@ public class Main {
 
     private static LocalTime getPercentileFlightTime(int percentile,List<Long> listOfFlightTime){
         List<Long> listOfFlightTimeSorted = listOfFlightTime.stream().sorted().collect(Collectors.toList());
-        double k = listOfFlightTime.size() * percentile/100;
+        double k = (double)(percentile)/100 * (listOfFlightTime.size() - 1);
         return LocalTime.of(
-                listOfFlightTimeSorted.get((int)Math.ceil(k)).intValue() / 60,
-                listOfFlightTimeSorted.get((int)Math.ceil(k)).intValue() % 60
+                listOfFlightTimeSorted.get((int)Math.floor(k)).intValue() / 60,
+                listOfFlightTimeSorted.get((int)Math.floor(k)).intValue() % 60
         );
     }
 
