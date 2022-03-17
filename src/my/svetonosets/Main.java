@@ -30,10 +30,13 @@ public class Main {
         JSONParser jsonParser = new JSONParser();
         try(FileReader fileReader = new FileReader(fileName)) {
             JSONObject tickets = (JSONObject) jsonParser.parse(fileReader);
-            JSONArray ticketsList = (JSONArray) tickets.get("tickets");
-            for (Object ticket : ticketsList){
-                Duration time = getFlightTimeFromTicket((JSONObject) ticket);
-                listOfFlightTime.add(time.toMinutes());
+            JSONArray ticketsArray = (JSONArray) tickets.get("tickets");
+            for (Object ticket : ticketsArray){
+                JSONObject ticketCasted = (JSONObject) ticket;
+                if (ticketCasted.containsValue("VVO") && ticketCasted.containsValue("TLV")) {
+                    Duration time = getFlightTimeFromTicket(ticketCasted);
+                    listOfFlightTime.add(time.toMinutes());
+                }
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
